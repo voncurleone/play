@@ -1,0 +1,13 @@
+@(tasks: Seq[(String, Boolean)])(implicit request: RequestHeader, flash: Flash)
+
+@main("task list") {
+  <h2>Task List</h2>
+  @for(((task, marked), index) <- tasks.zipWithIndex) {
+    <li>
+      @tasks
+      <button onclick="markTask(@index)">mark</button>
+      <button onclick="removeTask(@index)">remove</button>
+    </li>
+
+  }
+}
