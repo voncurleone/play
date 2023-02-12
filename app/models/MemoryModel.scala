@@ -31,8 +31,8 @@ object MemoryModel {
     }
   }
 
-  def addTask(username: String, task: String): Unit = {
-    tasks(username) = (task, false) :: tasks.get(username).getOrElse(Nil)
+  def addTask(username: String, task: String, marked: Boolean): Unit = {
+    tasks(username) = (task, marked) :: tasks.get(username).getOrElse(Nil)
   }
 
   def removeTask(username: String, index: Int): Boolean = {
