@@ -11,5 +11,15 @@
       }
     </li>
 
+    <form method="post" action="@routes.TaskList.removeTask">
+      @helper.CSRF.formField
+      <input type="hidden" name="index" value="@index">
+      <input type="submit" value="Remove" id="remove-@index">
+    </form>
+    <form method="post" action="@routes.TaskList.markTask">
+      @helper.CSRF.formField
+      <input type="hidden" name="index" value="@index">
+      <input type="submit" value="Mark" id="mark-@index">
+    </form>
   }
 }
