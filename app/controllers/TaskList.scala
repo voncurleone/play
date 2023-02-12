@@ -45,7 +45,7 @@ class TaskList @Inject()(val cc: MessagesControllerComponents) extends MessagesA
   def taskList = Action { implicit request =>
     val usernameOption = request.session.get("username")
     usernameOption.map { username =>
-      Ok(views.html.taskList(MemoryModel.getTasks(username)))
+      Ok(views.html.taskList(MemoryModel.getTasks(username), taskForm))
     }.getOrElse(Ok(views.html.login(loginForm)))
   }
 
@@ -59,7 +59,7 @@ class TaskList @Inject()(val cc: MessagesControllerComponents) extends MessagesA
       postVals.map { args =>
         val index = args("index").head.toInt
         MemoryModel.removeTask(username, index)
-        Ok(views.html.taskList(MemoryModel.getTasks(username)))
+        Ok(views.html.taskList(MemoryModel.getTasks(username), taskForm))
       }.getOrElse(Ok(views.html.login(loginForm)))
     }.getOrElse(Ok(views.html.login(loginForm)))
   }
@@ -71,7 +71,7 @@ class TaskList @Inject()(val cc: MessagesControllerComponents) extends MessagesA
       postVals.map { args =>
         val index = args("index").head.toInt
         MemoryModel.markTask(username, index)
-        Ok(views.html.taskList(MemoryModel.getTasks(username)))
+        Ok(views.html.taskList(MemoryModel.getTasks(username), taskForm))
       }.getOrElse(Ok(views.html.login(loginForm)))
     }.getOrElse(Ok(views.html.login(loginForm)))
   }
