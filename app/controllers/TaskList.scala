@@ -45,6 +45,28 @@ class TaskList @Inject()(val cc: MessagesControllerComponents) extends MessagesA
 
   def logOut = Action { implicit request => ??? }
   def addTask = Action {implicit request => ??? }
-  def removeTask = Action { implicit request => ??? }
-  def markTask = Action { implicit request => ???}
+
+  def removeTask = Action { implicit request =>
+    val usernameOption = request.session.get("username")
+    usernameOption.map { username =>
+      val postVals = request.body.asFormUrlEncoded
+      postVals.map { args =>
+        val index = args("index").head.toInt
+        MemoryModel.removeTask(username, index)
+        Ok(views.html.taskList(MemoryModel.getTasks(username)))
+      }.getOrElse(Ok(views.html.login(loginForm)))
+    }.getOrElse(Ok(views.html.login(loginForm)))
+  }
+
+  def markTask = Action { implicit request =>
+    val usernameOption = request.session.get("username")
+    usernameOption.map { username =>
+      val postVals = request.body.asFormUrlEncoded
+      postVals.map { args =>
+        val index = args("index").head.toInt
+        MemoryModel.markTask(username, index)
+        Ok(views.html.taskList(MemoryModel.getTasks(username)))
+      }.getOrElse(Ok(views.html.login(loginForm)))
+    }.getOrElse(Ok(views.html.login(loginForm)))
+  }
 }
