@@ -4,9 +4,11 @@
   <h2>Task List</h2>
   @for(((task, marked), index) <- tasks.zipWithIndex) {
     <li>
-      @task
-      <button onclick="markTask(@index)">mark</button>
-      <button onclick="removeTask(@index)">remove</button>
+      @if(marked) {
+        @task [marked]
+      } else {
+        @task
+      }
     </li>
 
   }
