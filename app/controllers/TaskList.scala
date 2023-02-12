@@ -9,12 +9,18 @@ import play.api.mvc._
 import models.MemoryModel
 
 case class LoginData(username: String, password: String)
+case class TaskData(task: String, marked: Boolean)
 
 class TaskList @Inject()(val cc: MessagesControllerComponents) extends MessagesAbstractController(cc) {
   private val loginForm: Form[LoginData] = Form(mapping(
     "username" -> text(4, 20),
     "password" -> text(5))(LoginData.apply)(LoginData.unapply)
   )
+
+  private val taskForm: Form[TaskData] = Form(mapping(
+    "task" -> text,
+    "marked" -> boolean
+  )(TaskData.apply)(TaskData.unapply))
 
   def login = Action { implicit request => Ok(views.html.login(loginForm)) }
 
