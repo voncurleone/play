@@ -1,4 +1,5 @@
-@(tasks: Seq[(String, Boolean)])(implicit request: RequestHeader, flash: Flash)
+@import play.api.i18n.Messages.implicitMessagesProviderToMessages
+@(tasks: Seq[(String, Boolean)], taskForm: Form[TaskData])(implicit request: RequestHeader, messagesProvider: MessagesProvider, flash: Flash)
 
 @main("task list") {
   <h2>Task List</h2>
@@ -21,5 +22,13 @@
       <input type="hidden" name="index" value="@index">
       <input type="submit" value="Mark" id="mark-@index">
     </form>
+  }
+
+  <h3>add a task</h3>
+  @helper.form( action = routes.TaskList.addTask ) {
+    @helper.CSRF.formField
+    @helper.inputText(taskForm("task"))
+    @helper.checkbox(taskForm("marked"))
+    <button type="submit" name="addTask">add</button>
   }
 }
