@@ -31,4 +31,8 @@
     @helper.checkbox(taskForm("marked"))
     <button type="submit" name="addTask">add</button>
   }
+
+  @helper.form( action = routes.TaskList.logOut ) {
+    <button type="submit" name="Logout">Log Out</button>
+  }
 }
