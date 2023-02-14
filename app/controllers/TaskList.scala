@@ -39,8 +39,21 @@ class TaskList @Inject()(val cc: MessagesControllerComponents) extends MessagesA
     }getOrElse(Redirect(routes.TaskList.login))
   }
 
-  def createUser = Action { implicit request => ??? }
-  def createUserForm = Action { implicit request => ??? }
+  def createUser = Action { implicit request =>
+    val postVals = request.body.asFormUrlEncoded
+    postVals.map { args =>
+      val username = args("username").head
+      val password = args("password").head
+      if(MemoryModel.createUser(username, password)) {
+        Redirect(routes.TaskList.taskList)
+          .withSession("username" -> username, "csrfToken" -> play.filters.csrf.CSRF.getToken.get.value)
+      }else Ok(views.html.createUser(loginForm))
+    }.getOrElse(Ok(views.html.createUser(loginForm)))
+  }
+
+  def createUserPage = Action { implicit request =>
+    Ok(views.html.createUser(loginForm))
+  }
 
   def taskList = Action { implicit request =>
     val usernameOption = request.session.get("username")
@@ -49,7 +62,9 @@ class TaskList @Inject()(val cc: MessagesControllerComponents) extends MessagesA
     }.getOrElse(Ok(views.html.login(loginForm)))
   }
 
-  def logOut = Action { implicit request => ??? }
+  def logOut = Action { implicit request =>
+    Redirect(routes.TaskList.taskList).withNewSession
+  }
 
   def addTask = Action { implicit request =>
     val usernameOption = request.session.get("username")
