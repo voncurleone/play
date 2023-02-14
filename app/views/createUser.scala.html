@@ -1,0 +1,15 @@
+@(newUserForm: Form[LoginData])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@main("create user") {
+  <h2>create user</h2>
+  @helper.form( action = routes.TaskList.createUser) {
+    @helper.CSRF.formField
+    @helper.inputText(newUserForm("username"))
+    @helper.inputPassword(newUserForm("password"))
+    <button type="submit" name="NewUser">Submit</button>
+  }
+
+  @helper.form( action = routes.TaskList.login ) {
+    <button type="submit" name="login">Back to Login</button>
+  }
+}
