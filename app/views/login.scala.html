@@ -20,5 +20,9 @@
     @helper.inputPassword(loginForm("password"))
     <button type="submit" name="login">Login</button>
   }
+
+  @helper.form( action = routes.TaskList.createUserPage ) {
+    <button type="submit" name="login">Create New User</button>
+  }
 }
 
