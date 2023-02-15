@@ -13,7 +13,7 @@ case class TaskData(task: String, marked: Boolean)
 
 class TaskList @Inject()(val cc: MessagesControllerComponents) extends MessagesAbstractController(cc) {
   private val loginForm: Form[LoginData] = Form(mapping(
-    "username" -> text(4, 20),
+    "username" -> text(3, 20),
     "password" -> text(5))(LoginData.apply)(LoginData.unapply)
   )
 
@@ -25,18 +25,18 @@ class TaskList @Inject()(val cc: MessagesControllerComponents) extends MessagesA
   def login = Action { implicit request => Ok(views.html.login(loginForm)) }
 
   def validateLogin = Action { implicit request =>
-    val post = request.body.asFormUrlEncoded
-    post map { args =>
-      val username = args("username").head
-      val password = args("password").head
-      if(MemoryModel.validateUser(username, password)) {
-        Redirect(routes.TaskList.taskList)
-          .withSession("username" -> username, "csrfToken" -> play.filters.csrf.CSRF.getToken.get.value)
+    loginForm.bindFromRequest.fold(
+      formWithError => BadRequest(views.html.login(formWithError)),
+      data => {
+        if (MemoryModel.validateUser(data.username, data.password)) {
+          Redirect(routes.TaskList.taskList)
+            .withSession("username" -> data.username, "csrfToken" -> play.filters.csrf.CSRF.getToken.get.value)
+        }
+        else {
+          Redirect(routes.TaskList.login).flashing("error" -> "invalid username or password")
+        }
       }
-      else {
-        Redirect(routes.TaskList.login).flashing("error" -> "invalid username or password")
-      }
-    }getOrElse(Redirect(routes.TaskList.login))
+    )
   }
 
   def createUser = Action { implicit request =>
