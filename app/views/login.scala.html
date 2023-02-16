@@ -3,16 +3,6 @@
 
 @main("Login") {
   <h2>Login</h2>
-  @*add from for logging in*@
-  @*<form method="post" action="@routes.TaskList.validateLogin">
-    @helper.CSRF.formField
-    <br>
-    Username: <input type="text" name="username" id="username-login"></input>
-    <br>
-    Password: <input type="password" name="password" id="password-login"></input>
-    <br>
-    <input type="submit"></input>
-  </form>*@
 
   @helper.form( action = routes.TaskList.validateLogin ) {
     @helper.CSRF.formField
