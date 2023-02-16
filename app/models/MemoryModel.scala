@@ -5,7 +5,7 @@ import scala.collection.mutable
 object MemoryModel {
   private val users = mutable.Map[String, String]("tim" -> "password")
   //key: username, value: list[(task, marked)]
-  private val tasks = mutable.Map[String, List[(String, Boolean)]]("tim" -> List(("item1", false), ("item2", false)))
+  private val tasks = mutable.Map[String, List[(String, Boolean)]]("tim" -> List(("item1", true), ("item2", false)))
 
   def validateUser(username: String, password: String): Boolean = {
     users.get(username).map(_ == password).getOrElse(false)
