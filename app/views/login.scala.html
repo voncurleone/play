@@ -6,8 +6,8 @@
 
   @helper.form( action = routes.TaskList.validateLogin ) {
     @helper.CSRF.formField
-    @helper.inputText(loginForm("username"))
-    @helper.inputPassword(loginForm("password"))
+    @helper.inputText(loginForm("username"), Symbol("id") -> "login-user")
+    @helper.inputPassword(loginForm("password"), Symbol("id") -> "login-pass")
     <button type="submit" name="login">Login</button>
   }
 
