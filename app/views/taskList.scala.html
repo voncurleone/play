@@ -1,7 +1,7 @@
 @import play.api.i18n.Messages.implicitMessagesProviderToMessages
 @(tasks: Seq[(String, Boolean)], taskForm: Form[TaskData])(implicit request: RequestHeader, messagesProvider: MessagesProvider, flash: Flash)
 
-@main("task list") {
+@main("Task List") {
   <h2>Task List</h2>
   @for(((task, marked), index) <- tasks.zipWithIndex) {
     <li>
@@ -20,7 +20,7 @@
     <form method="post" action="@routes.TaskList.markTask">
       @helper.CSRF.formField
       <input type="hidden" name="index" value="@index">
-      <input type="submit" value="Mark" id="mark-@index">
+      <input type="submit" value="Mark" id="mark-@index">mark</input>
     </form>
   }
 
@@ -33,6 +33,6 @@
   }
 
   @helper.form( action = routes.TaskList.logOut ) {
-    <button type="submit" name="Logout">Log Out</button>
+    <button type="submit" name="Logout" id="logout-button">Log Out</button>
   }
 }
