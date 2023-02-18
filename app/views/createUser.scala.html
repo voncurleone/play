@@ -4,8 +4,8 @@
   <h2>create user</h2>
   @helper.form( action = routes.TaskList.createUser) {
     @helper.CSRF.formField
-    @helper.inputText(newUserForm("username"))
-    @helper.inputPassword(newUserForm("password"))
+    @helper.inputText(newUserForm("username"), Symbol("id") -> "input-user")
+    @helper.inputPassword(newUserForm("password"), Symbol("id") -> "input-pass")
     <button type="submit" name="NewUser">Submit</button>
   }
 
