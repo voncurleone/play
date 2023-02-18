@@ -4,6 +4,11 @@ import org.scalatestplus.play.{OneBrowserPerSuite, PlaySpec}
 import org.scalatestplus.play.guice.GuiceOneServerPerSuite
 import org.scalatestplus.play.HtmlUnitFactory
 
+/*
+Tests must be run in order after a fresh run of play.
+this is due to the use of an in memory model.
+ */
+
 class TaskListSpec extends PlaySpec with GuiceOneServerPerSuite with OneBrowserPerSuite with HtmlUnitFactory {
   def login(): Unit = {
     go to "http://localhost:9000"
