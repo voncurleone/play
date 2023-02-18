@@ -40,15 +40,15 @@ class TaskList @Inject()(val cc: MessagesControllerComponents) extends MessagesA
   }
 
   def createUser = Action { implicit request =>
-    val postVals = request.body.asFormUrlEncoded
-    postVals.map { args =>
-      val username = args("username").head
-      val password = args("password").head
-      if(MemoryModel.createUser(username, password)) {
-        Redirect(routes.TaskList.taskList)
-          .withSession("username" -> username, "csrfToken" -> play.filters.csrf.CSRF.getToken.get.value)
-      }else Ok(views.html.createUser(loginForm))
-    }.getOrElse(Ok(views.html.createUser(loginForm)))
+    loginForm.bindFromRequest.fold(
+      formWithError => BadRequest(views.html.createUser(formWithError)),
+      data => {
+        if(MemoryModel.createUser(data.username, data.password)) {
+          Redirect(routes.TaskList.taskList)
+            .withSession("username" -> data.username, "csrfToken" -> play.filters.csrf.CSRF.getToken.get.value)
+        } else Ok(views.html.createUser(loginForm))
+      }
+    )
   }
 
   def createUserPage = Action { implicit request =>
