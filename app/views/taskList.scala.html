@@ -27,8 +27,8 @@
   <h3>add a task</h3>
   @helper.form( action = routes.TaskList.addTask ) {
     @helper.CSRF.formField
-    @helper.inputText(taskForm("task"))
-    @helper.checkbox(taskForm("marked"))
+    @helper.inputText(taskForm("task"), Symbol("id") -> "input-task")
+    @helper.checkbox(taskForm("marked"), Symbol("id") -> "input-marked")
     <button type="submit" name="addTask">add</button>
   }
 
