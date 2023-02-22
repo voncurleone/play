@@ -3,8 +3,8 @@
 # https://www.playframework.com/documentation/latest/ScalaRouting
 # ~~~~
 
-# An example controller showing a sample home page
-GET     /                           controllers.TaskList.login
+# routes for first version of task list (web 1.0)
+GET     /login                      controllers.TaskList.login
 POST    /validatePost               controllers.TaskList.validateLogin
 GET     /tasks                      controllers.TaskList.taskList
 POST    /removeTask                 controllers.TaskList.removeTask
@@ -13,6 +13,9 @@ POST    /addTask                    controllers.TaskList.addTask
 GET     /createUserPage             controllers.TaskList.createUserPage
 POST    /createUser                 controllers.TaskList.createUser
 GET     /logOut                     controllers.TaskList.logOut
+
+#routes for second version of tasklist using JQuery
+GET  /                              controllers.TaskList2.login
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
