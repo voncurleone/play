@@ -1,0 +1,14 @@
+@()(implicit requestHeader: RequestHeader, flash: Flash)
+
+@v1.main("Task List JQuery") {
+  <div id="contents"></div>
+
+  <!-- csrf token -->
+  <input type="hidden" id="csrf-token" value="@helper.CSRF.getToken.value">
+
+  <!-- routes -->
+  <input type="hidden" id="login-route" value="@routes.TaskList2.login">
+
+  <!-- js source -->
+  <script src="@routes.Assets.versioned("javascripts/version2.js")"></script>
+}
