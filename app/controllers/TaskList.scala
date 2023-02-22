@@ -22,11 +22,11 @@ class TaskList @Inject()(val cc: MessagesControllerComponents) extends MessagesA
     "marked" -> boolean
   )(TaskData.apply)(TaskData.unapply))
 
-  def login = Action { implicit request => Ok(views.html.login(loginForm)) }
+  def login = Action { implicit request => Ok(views.html.v1.login(loginForm)) }
 
   def validateLogin = Action { implicit request =>
     loginForm.bindFromRequest.fold(
-      formWithError => BadRequest(views.html.login(formWithError)),
+      formWithError => BadRequest(views.html.v1.login(formWithError)),
       data => {
         if (MemoryModel.validateUser(data.username, data.password)) {
           Redirect(routes.TaskList.taskList)
@@ -41,25 +41,25 @@ class TaskList @Inject()(val cc: MessagesControllerComponents) extends MessagesA
 
   def createUser = Action { implicit request =>
     loginForm.bindFromRequest.fold(
-      formWithError => BadRequest(views.html.createUser(formWithError)),
+      formWithError => BadRequest(views.html.v1.createUser(formWithError)),
       data => {
         if(MemoryModel.createUser(data.username, data.password)) {
           Redirect(routes.TaskList.taskList)
             .withSession("username" -> data.username, "csrfToken" -> play.filters.csrf.CSRF.getToken.get.value)
-        } else Ok(views.html.createUser(loginForm))
+        } else Ok(views.html.v1.createUser(loginForm))
       }
     )
   }
 
   def createUserPage = Action { implicit request =>
-    Ok(views.html.createUser(loginForm))
+    Ok(views.html.v1.createUser(loginForm))
   }
 
   def taskList = Action { implicit request =>
     val usernameOption = request.session.get("username")
     usernameOption.map { username =>
-      Ok(views.html.taskList(MemoryModel.getTasks(username), taskForm))
-    }.getOrElse(Ok(views.html.login(loginForm)))
+      Ok(views.html.v1.taskList(MemoryModel.getTasks(username), taskForm))
+    }.getOrElse(Ok(views.html.v1.login(loginForm)))
   }
 
   def logOut = Action { implicit request =>
@@ -75,9 +75,9 @@ class TaskList @Inject()(val cc: MessagesControllerComponents) extends MessagesA
         val markedOption = args.get("marked").map(_.head.toBoolean)
 
         MemoryModel.addTask(username, task, markedOption.getOrElse(false))
-        Ok(views.html.taskList(MemoryModel.getTasks(username), taskForm))
-      }.getOrElse(Ok(views.html.login(loginForm)))
-    }.getOrElse(Ok(views.html.login(loginForm)))
+        Ok(views.html.v1.taskList(MemoryModel.getTasks(username), taskForm))
+      }.getOrElse(Ok(views.html.v1.login(loginForm)))
+    }.getOrElse(Ok(views.html.v1.login(loginForm)))
   }
 
   def removeTask = Action { implicit request =>
@@ -87,9 +87,9 @@ class TaskList @Inject()(val cc: MessagesControllerComponents) extends MessagesA
       postVals.map { args =>
         val index = args("index").head.toInt
         MemoryModel.removeTask(username, index)
-        Ok(views.html.taskList(MemoryModel.getTasks(username), taskForm))
-      }.getOrElse(Ok(views.html.login(loginForm)))
-    }.getOrElse(Ok(views.html.login(loginForm)))
+        Ok(views.html.v1.taskList(MemoryModel.getTasks(username), taskForm))
+      }.getOrElse(Ok(views.html.v1.login(loginForm)))
+    }.getOrElse(Ok(views.html.v1.login(loginForm)))
   }
 
   def markTask = Action { implicit request =>
@@ -99,8 +99,8 @@ class TaskList @Inject()(val cc: MessagesControllerComponents) extends MessagesA
       postVals.map { args =>
         val index = args("index").head.toInt
         MemoryModel.markTask(username, index)
-        Ok(views.html.taskList(MemoryModel.getTasks(username), taskForm))
-      }.getOrElse(Ok(views.html.login(loginForm)))
-    }.getOrElse(Ok(views.html.login(loginForm)))
+        Ok(views.html.v1.taskList(MemoryModel.getTasks(username), taskForm))
+      }.getOrElse(Ok(views.html.v1.login(loginForm)))
+    }.getOrElse(Ok(views.html.v1.login(loginForm)))
   }
 }
