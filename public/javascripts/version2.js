@@ -1,4 +1,5 @@
 //routes
-const loginRoute = $("#login-route").val()
+const loginRoute = $("#login-route").val();
+const currentRoute = $("#current-route").val();
 
-$("#contents").load(loginRoute)
+$("#contents").load(currentRoute);
