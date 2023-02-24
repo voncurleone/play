@@ -1,4 +1,4 @@
-@()(implicit requestHeader: RequestHeader, flash: Flash)
+@(currentRoute: String)(implicit requestHeader: RequestHeader, flash: Flash)
 
 @v1.main("Task List JQuery") {
   <div id="contents"></div>
@@ -8,6 +8,10 @@
 
   <!-- routes -->
   <input type="hidden" id="login-route" value="@routes.TaskList2.login">
+  <input type="hidden" id="current-route" value="@currentRoute">
+
+  <!-- jquery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
   <!-- js source -->
   <script src="@routes.Assets.versioned("javascripts/version2.js")"></script>
