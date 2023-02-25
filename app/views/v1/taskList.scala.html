@@ -1,7 +1,7 @@
 @import play.api.i18n.Messages.implicitMessagesProviderToMessages
 @(tasks: Seq[(String, Boolean)], taskForm: Form[TaskData])(implicit request: RequestHeader, messagesProvider: MessagesProvider, flash: Flash)
 
-@main("Task List") {
+@v1.main("Task List") {
   <h2>Task List</h2>
   @for(((task, marked), index) <- tasks.zipWithIndex) {
     <li>
