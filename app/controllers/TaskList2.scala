@@ -1,5 +1,6 @@
 package controllers
 
+import models.MemoryModel
 import play.api.mvc.{AbstractController, ControllerComponents}
 
 import javax.inject.Inject
@@ -8,11 +9,34 @@ class TaskList2 @Inject()(cc: ControllerComponents) extends AbstractController(c
   def load = Action { implicit request =>
     val userNameOption = request.session.get("username")
     userNameOption.map { username =>
-      Ok("there is session")
+      Ok(views.html.main2(routes.TaskList2.taskList.toString))
     }.getOrElse(Ok(views.html.main2(routes.TaskList2.login.toString)))
   }
 
   def login = Action { implicit request =>
     Ok(views.html.login2())
+  }
+
+  def validateLogin = Action { implicit request =>
+    val postVals = request.body.asFormUrlEncoded
+    postVals.map { args =>
+      val username = args("username").head
+      val password = args("password").head
+
+      if(MemoryModel.validateUser(username, password)) {
+        Ok(views.html.taskList2(MemoryModel.getTasks(username)))
+          .withSession("username" -> username, "csrfToken" -> play.filters.csrf.CSRF.getToken.get.value)
+      } else {
+        Ok(views.html.login2())
+      }
+    }.getOrElse(Ok(views.html.login2()))
+  }
+
+  def taskList = Action { implicit request =>
+    val userNameOption = request.session.get("username")
+    userNameOption.map { username =>
+      Ok(views.html.taskList2(MemoryModel.getTasks(username)))
+        .withSession("username" -> username, "csrfToken" -> play.filters.csrf.CSRF.getToken.get.value)
+    }.getOrElse(Ok(views.html.login2()))
   }
 }
