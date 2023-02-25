@@ -17,6 +17,8 @@ GET     /logOut                     controllers.TaskList.logOut
 #routes for second version of tasklist using JQuery
 GET   /load2                        controllers.TaskList2.load
 GET   /login2                       controllers.TaskList2.login
+POST  /validateLogin                controllers.TaskList2.validateLogin
+GET   /tasks2                       controllers.TaskList2.taskList
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
