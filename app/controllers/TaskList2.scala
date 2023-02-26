@@ -46,4 +46,8 @@ class TaskList2 @Inject()(cc: ControllerComponents) extends AbstractController(c
       Ok(views.html.taskForm())
     }.getOrElse(Ok(views.html.login2()))
   }
+
+  def logOut = Action {
+    Redirect(routes.TaskList2.load).withNewSession
+  }
 }
