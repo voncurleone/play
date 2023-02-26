@@ -36,7 +36,7 @@ class TaskList2 @Inject()(cc: ControllerComponents) extends AbstractController(c
     val userNameOption = request.session.get("username")
     userNameOption.map { username =>
       Ok(views.html.taskList2(MemoryModel.getTasks(username)))
-        .withSession("username" -> username, "csrfToken" -> play.filters.csrf.CSRF.getToken.get.value)
+        //.withSession("username" -> username, "csrfToken" -> play.filters.csrf.CSRF.getToken.get.value)
     }.getOrElse(Ok(views.html.login2()))
   }
 }
