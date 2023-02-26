@@ -1,4 +1,6 @@
+//routes
 const taskListRoute = $("#task-list-route").val();
+const logOutRoute = $("#log-out-route").val();
 
 $("#task-form").load(taskListRoute);
 
@@ -12,4 +14,9 @@ function remove(index) {
 
 function mark(index) {
   console.log("marking: " + index)
+}
+
+function logOut() {
+  console.log("logging out")
+  location = logOutRoute;
 }
