@@ -1,0 +1,13 @@
+@()
+
+<div id="task-form"></div>
+
+<h3>Add Task</h3>
+Task: <input type="text" id="task-text">
+<br>
+Marked: <input type="checkbox" id="task-marked">
+<br>
+<button onclick="addTask()">Add</button>
+
+  <!-- js source -->
+<script src="@routes.Assets.versioned("javascripts/taskForm2.js")"></script>
