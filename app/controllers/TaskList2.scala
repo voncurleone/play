@@ -50,4 +50,16 @@ class TaskList2 @Inject()(cc: ControllerComponents) extends AbstractController(c
   def logOut = Action {
     Redirect(routes.TaskList2.load).withNewSession
   }
+
+  def mark = Action { implicit request =>
+    val userNameOption = request.session.get("username")
+    userNameOption.map { username =>
+      val postVals = request.body.asFormUrlEncoded
+      postVals.map { args =>
+        val index = args("index").head.toInt
+        MemoryModel.markTask(username, index)
+        Ok(views.html.taskList2(MemoryModel.getTasks(username)))
+      }.getOrElse(Ok(views.html.login2()))
+    }.getOrElse(Ok(views.html.login2()))
+  }
 }
