@@ -9,7 +9,7 @@ class TaskList2 @Inject()(cc: ControllerComponents) extends AbstractController(c
   def load = Action { implicit request =>
     val userNameOption = request.session.get("username")
     userNameOption.map { username =>
-      Ok(views.html.main2(routes.TaskList2.taskList.toString))
+      Ok(views.html.main2(routes.TaskList2.taskForm.toString))
     }.getOrElse(Ok(views.html.main2(routes.TaskList2.login.toString)))
   }
 
@@ -37,6 +37,13 @@ class TaskList2 @Inject()(cc: ControllerComponents) extends AbstractController(c
     userNameOption.map { username =>
       Ok(views.html.taskList2(MemoryModel.getTasks(username)))
         //.withSession("username" -> username, "csrfToken" -> play.filters.csrf.CSRF.getToken.get.value)
+    }.getOrElse(Ok(views.html.login2()))
+  }
+
+  def taskForm = Action { implicit request =>
+    val userNameOption = request.session.get("username")
+    userNameOption.map { username =>
+      Ok(views.html.taskForm())
     }.getOrElse(Ok(views.html.login2()))
   }
 }
