@@ -1,12 +1,14 @@
 //routes
-const loginRoute = $("#login-route").val();
+//const loginRoute = $("#login-route").val();
 const currentRoute = $("#current-route").val();
 const validateRoute = $("#validate-route").val();
+//const taskListRoute = $("#task-list-route").val();
 
 //csrf token
 const csrfToken = $("#csrf-token").val();
 
 $("#contents").load(currentRoute);
+//$("#task-form").load(taskListRoute);
 
 function validateLogin() {
   console.log("validating")
@@ -20,10 +22,6 @@ function validateLogin() {
     });
 }
 
-function remove(index) {
-  console.log("removing: " + index)
-}
-
-function mark(index) {
-  console.log("marking: " + index)
-}
+/*function addTask() {
+  console.log("adding task")
+}*/
