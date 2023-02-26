@@ -1,6 +1,7 @@
 //routes
 const taskListRoute = $("#task-list-route").val();
 const logOutRoute = $("#log-out-route").val();
+const markTaskRoute = $("#mark-task-route").val();
 
 $("#task-form").load(taskListRoute);
 
@@ -14,6 +15,12 @@ function remove(index) {
 
 function mark(index) {
   console.log("marking: " + index)
+
+  $.post(markTaskRoute,
+    {index, csrfToken},
+    data => {
+      $("#task-form").html(data)
+    });
 }
 
 function logOut() {
