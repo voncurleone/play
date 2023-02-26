@@ -7,9 +7,10 @@
   <input type="hidden" id="csrf-token" value="@helper.CSRF.getToken.value">
 
   <!-- routes -->
-  <input type="hidden" id="login-route" value="@routes.TaskList2.login">
   <input type="hidden" id="current-route" value="@currentRoute">
+  <input type="hidden" id="login-route" value="@routes.TaskList2.login">
   <input type="hidden" id="validate-route" value="@routes.TaskList2.validateLogin">
+  <input type="hidden" id="task-list-route" value="@routes.TaskList2.taskList">
 
   <!-- jquery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
