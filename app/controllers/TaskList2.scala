@@ -62,4 +62,16 @@ class TaskList2 @Inject()(cc: ControllerComponents) extends AbstractController(c
       }.getOrElse(Ok(views.html.login2()))
     }.getOrElse(Ok(views.html.login2()))
   }
+
+  def remove = Action { implicit request =>
+    val userNameOption = request.session.get("username")
+    userNameOption.map { username =>
+      val postVals = request.body.asFormUrlEncoded
+      postVals.map { args =>
+        val index = args("index").head.toInt
+        MemoryModel.removeTask(username, index)
+        Ok(views.html.taskList2(MemoryModel.getTasks(username)))
+      }.getOrElse(Ok(views.html.login2()))
+    }.getOrElse(Ok(views.html.login2()))
+  }
 }

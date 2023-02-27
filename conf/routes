@@ -22,5 +22,7 @@ GET   /tasks2                       controllers.TaskList2.taskList
 GET   /taskForm                     controllers.TaskList2.taskForm
 GET   /logOut2                      controllers.TaskList2.logOut
 POST  /markTask2                    controllers.TaskList2.mark
+POST  /removeTask2                  controllers.TaskList2.remove
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
