@@ -24,7 +24,7 @@ class TaskList2 @Inject()(cc: ControllerComponents) extends AbstractController(c
       val password = args("password").head
 
       if(MemoryModel.validateUser(username, password)) {
-        Ok(views.html.taskList2(MemoryModel.getTasks(username)))
+        Ok(views.html.taskForm())
           .withSession("username" -> username, "csrfToken" -> play.filters.csrf.CSRF.getToken.get.value)
       } else {
         Ok(views.html.login2())
@@ -72,6 +72,34 @@ class TaskList2 @Inject()(cc: ControllerComponents) extends AbstractController(c
         MemoryModel.removeTask(username, index)
         Ok(views.html.taskList2(MemoryModel.getTasks(username)))
       }.getOrElse(Ok(views.html.login2()))
+    }.getOrElse(Ok(views.html.login2()))
+  }
+
+  def add = Action { implicit request =>
+    val userNameOption = request.session.get("username")
+    userNameOption.map { username =>
+      val postVals = request.body.asFormUrlEncoded
+      postVals.map { args =>
+        val task = args("task").head
+        val markedOption = args("marked").map(_.toBoolean).head
+        MemoryModel.addTask(username, task, markedOption)
+        Ok(views.html.taskList2(MemoryModel.getTasks(username)))
+      }.getOrElse(Ok(views.html.login2()))
+    }.getOrElse(Ok(views.html.login2()))
+  }
+
+  def createUser = Action { implicit request =>
+    val postVals = request.body.asFormUrlEncoded
+    postVals.map { args =>
+      val username = args("username").head
+      val password = args("password").head
+
+      if(MemoryModel.createUser(username, password)) {
+        Ok(views.html.taskForm())
+          .withSession("username" -> username, "csrfToken" -> play.filters.csrf.CSRF.getToken.get.value)
+      } else {
+        Ok(views.html.login2())
+      }
     }.getOrElse(Ok(views.html.login2()))
   }
 }
