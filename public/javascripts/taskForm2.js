@@ -11,6 +11,8 @@ function addTask() {
   const task = $("#task-text").val();
   const marked = $("#task-marked")[0].checked;
   console.log("adding task: " + task + ", marked: " + marked);
+  $("#task-text").val("");
+  $("#task-marked")[0].checked = false;
 
   $.post(addTaskRoute,
     {task, marked, csrfToken},
