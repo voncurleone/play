@@ -1,4 +1,4 @@
-@()(implicit flash: Flash)
+@()(implicit flash: Flash, requestHeader: RequestHeader)
 
 @v1.main("Task List Json") {
   <div id="login-div">
@@ -10,16 +10,28 @@
     <button onclick="login()">Login</button>
 
     <br>
-    <div id="contents"></div>
+    <br>
+    <div id="login-message"></div>
 
   </div>
 
   <div id="task-list-div" hidden>
-    task list
+    <h2>Task List v3</h2>
+
+    <ul id="task-list-ul">
+    </ul>
   </div>
 
+  <div id="logout-div">
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <!-- csrf token -->
+  <input type="hidden" id="csrf-token" value="@helper.CSRF.getToken.value">
+
   <!-- routes -->
-  <input type="hidden">
+  <input type="hidden" id="validate-login-route" value="@routes.TaskList3.validateLogin">
+  <input type="hidden" id="task-list-route" value="@routes.TaskList3.taskList">
 
   <!-- js -->
   <script src="@routes.Assets.versioned("javascripts/version3.js")"></script>

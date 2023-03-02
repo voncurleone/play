@@ -9,13 +9,17 @@ import javax.inject.Inject
 class TaskList3 @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
   case class UserData(username: String, password: String)
 
-  def withJson[A](f: A => Result)(implicit request: Request[AnyContent], reads: Reads[A]) = {
+  private def withJson[A](f: A => Result)(implicit request: Request[AnyContent], reads: Reads[A]) = {
     request.body.asJson.map { body =>
       Json.fromJson(body) match {
         case JsSuccess(value, path) => f(value)
         case e @JsError(errors) => Redirect(routes.TaskList3.load)
       }
     }.getOrElse(Redirect(routes.TaskList3.load))
+  }
+
+  private def withSession(f: String => Result)(implicit request: Request[AnyContent]) = {
+    request.session.get("username").map(f).getOrElse(Ok(Json.toJson(Seq(false))))
   }
 
   def load = Action { implicit request =>
@@ -27,10 +31,16 @@ class TaskList3 @Inject()(cc: ControllerComponents) extends AbstractController(c
     withJson[UserData] { data =>
       if(MemoryModel.validateUser(data.username, data.password)) {
         Ok(Json.toJson(true))
-          .withSession("usernaame" -> data.username, "csrfToken" -> play.filters.csrf.CSRF.getToken.get.value)
+          .withSession("username" -> data.username, "csrfToken" -> play.filters.csrf.CSRF.getToken.get.value)
       } else {
         Ok(Json.toJson(false))
       }
+    }
+  }
+
+  def taskList = Action { implicit request =>
+    withSession { username =>
+      Ok(Json.toJson(MemoryModel.getTasks(username)))
     }
   }
 }
