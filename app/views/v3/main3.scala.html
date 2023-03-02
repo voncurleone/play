@@ -1,0 +1,26 @@
+@()(implicit flash: Flash)
+
+@v1.main("Task List Json") {
+  <div id="login-div">
+    <h2>Login v3</h2>
+    Username: <input type="text" id="login-username">
+    <br>
+    Password: <input type="password" id="login-password">
+    <br>
+    <button onclick="login()">Login</button>
+
+    <br>
+    <div id="contents"></div>
+
+  </div>
+
+  <div id="task-list-div" hidden>
+    task list
+  </div>
+
+  <!-- routes -->
+  <input type="hidden">
+
+  <!-- js -->
+  <script src="@routes.Assets.versioned("javascripts/version3.js")"></script>
+}
