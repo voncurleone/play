@@ -2,6 +2,8 @@
 const validateLoginRoute = document.getElementById("validate-login-route").value;
 const taskListRoute = document.getElementById("task-list-route").value;
 const logoutRoute = document.getElementById("logout-route").value;
+const markTaskRoute = document.getElementById("mark-task-route").value;
+const removeTaskRoute = document.getElementById("remove-task-route").value;
 
 //csrf token
 const csrfToken3 = document.getElementById("csrf-token").value;
@@ -9,14 +11,19 @@ const csrfToken3 = document.getElementById("csrf-token").value;
 //load page
 loadPage();
 
+function toTaskView() {
+  document.getElementById("login-div").hidden = true;
+  document.getElementById("task-list-div").hidden = false;
+  document.getElementById("logout-div").hidden = false;
+}
+
 function loadPage() {
   console.log("loading page..");
 
   fetch(taskListRoute).then( result => result.json()).then(data => {
     console.log(data[0]);
     if(data[0]) {
-      document.getElementById("login-div").hidden = true;
-      document.getElementById("task-list-div").hidden = false;
+      toTaskView();
       loadTasks();
     }
   });
@@ -71,6 +78,21 @@ function loadTasks() {
       } else {
         li.appendChild(text)
       }
+
+      const mark = document.createElement("button")
+      const remove = document.createElement("button")
+      const space = document.createTextNode("\t")
+
+      mark.innerHTML = "mark"
+      mark.onclick = e => { markItem(i) }
+      remove.innerHTML = "remove"
+      remove.onclick = e => { removeItem(i) }
+
+      li.appendChild(space)
+      li.appendChild(mark)
+      li.appendChild(space)
+      li.appendChild(remove)
+
       ul.appendChild(li)
     }
   });
@@ -81,9 +103,39 @@ function logout() {
 
   fetch(logoutRoute).then(result => result.json()).then(data => {
     if(data) {
-      document.getElementById("login-div").hidden = false;
-      document.getElementById("task-list-div").hidden = true;
-      document.getElementById("logout-div").hidden = true;
+      toTaskView()
+    }
+  });
+}
+
+function markItem(index) {
+  console.log("mark: " + index)
+
+  fetch(markTaskRoute, {
+    method: "post",
+    headers: { "Content-Type": "application/json", "Csrf-Token": csrfToken3},
+    body: JSON.stringify(index)
+  }).then(result => result.json()).then( data => {
+    if(data) {
+      loadTasks()
+    } else {
+      document.getElementById("task-message").innerHTML = "Mark failed! index:" + index
+    }
+  });
+}
+
+function removeItem(index) {
+  console.log("remove: " + index)
+
+  fetch(removeTaskRoute, {
+    method: "post",
+    headers: { "Content-Type": "application/json", "Csrf-Token": csrfToken3},
+    body: JSON.stringify(index)
+  }).then(result => result.json()).then( data => {
+    if(data) {
+      loadTasks()
+    } else {
+      document.getElementById("task-message").innerHTML = "Remove failed! index:" + index
     }
   });
 }
