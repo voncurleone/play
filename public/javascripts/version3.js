@@ -1,6 +1,7 @@
 //routes
 const validateLoginRoute = document.getElementById("validate-login-route").value;
 const taskListRoute = document.getElementById("task-list-route").value;
+const logoutRoute = document.getElementById("logout-route").value;
 
 //csrf token
 const csrfToken3 = document.getElementById("csrf-token").value;
@@ -12,7 +13,7 @@ function loadPage() {
   console.log("loading page..");
 
   fetch(taskListRoute).then( result => result.json()).then(data => {
-    console.log(data[0])
+    console.log(data[0]);
     if(data[0]) {
       document.getElementById("login-div").hidden = true;
       document.getElementById("task-list-div").hidden = false;
@@ -42,6 +43,7 @@ function login() {
 
       document.getElementById("login-div").hidden = true;
       document.getElementById("task-list-div").hidden = false;
+      document.getElementById("logout-div").hidden = false;
       loadTasks();
     } else {
       document.getElementById("login-message").innerText = "Login Failed!";
@@ -75,5 +77,13 @@ function loadTasks() {
 }
 
 function logout() {
-  console.log("logging out..")
+  console.log("logging out..");
+
+  fetch(logoutRoute).then(result => result.json()).then(data => {
+    if(data) {
+      document.getElementById("login-div").hidden = false;
+      document.getElementById("task-list-div").hidden = true;
+      document.getElementById("logout-div").hidden = true;
+    }
+  });
 }

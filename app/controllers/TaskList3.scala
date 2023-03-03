@@ -43,4 +43,8 @@ class TaskList3 @Inject()(cc: ControllerComponents) extends AbstractController(c
       Ok(Json.toJson(MemoryModel.getTasks(username)))
     }
   }
+
+  def logout = Action {
+    Ok(Json.toJson(true)).withNewSession
+  }
 }

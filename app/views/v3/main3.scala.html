@@ -22,7 +22,7 @@
     </ul>
   </div>
 
-  <div id="logout-div">
+  <div id="logout-div" hidden>
     <button onclick="logout()">Logout</button>
   </div>
 
@@ -32,6 +32,7 @@
   <!-- routes -->
   <input type="hidden" id="validate-login-route" value="@routes.TaskList3.validateLogin">
   <input type="hidden" id="task-list-route" value="@routes.TaskList3.taskList">
+  <input type="hidden" id="logout-route" value="@routes.TaskList3.logout">
 
   <!-- js -->
   <script src="@routes.Assets.versioned("javascripts/version3.js")"></script>
