@@ -33,6 +33,8 @@ GET   /tasks3                       controllers.TaskList3.taskList
 GET   /logout3                      controllers.TaskList3.logout
 POST  /markTask3                    controllers.TaskList3.mark
 POST  /removeTask3                  controllers.TaskList3.remove
+POST  /createUser3                  controllers.TaskList3.createUser
+POST  /addTask3                     controllers.TaskList3.addTask
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

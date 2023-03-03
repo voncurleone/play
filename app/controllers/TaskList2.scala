@@ -102,4 +102,6 @@ class TaskList2 @Inject()(cc: ControllerComponents) extends AbstractController(c
       }
     }.getOrElse(Ok(views.html.v2.login2()))
   }
+
+
 }
