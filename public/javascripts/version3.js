@@ -13,6 +13,16 @@ const csrfToken3 = document.getElementById("csrf-token").value;
 //load page
 loadPage();
 
+function clearAddUserForm() {
+  document.getElementById("create-username").value = "";
+  document.getElementById("create-password").value = "";
+}
+
+function clearTaskForm() {
+  document.getElementById("task-text").value = "";
+  document.getElementById("task-marked").checked = false;
+}
+
 function resetMessages() {
   document.getElementById("create-user-message").innerHTML = "";
   document.getElementById("login-message").innerText = "";
@@ -64,6 +74,7 @@ function login() {
 
       toTaskView();
       loadTasks();
+      clearAddUserForm();
     } else {
       resetMessages();
       document.getElementById("login-message").innerText = "Login Failed!";
@@ -117,6 +128,7 @@ function logout() {
   fetch(logoutRoute).then(result => result.json()).then(data => {
     if(data) {
       toLoginView();
+      clearTaskForm();
     }
   });
 }
@@ -168,9 +180,10 @@ function createUser() {
     if(data) {
       toTaskView();
       loadTasks();
+      clearAddUserForm();
     } else {
       resetMessages();
-      document.getElementById("create-user-message").innerHTML = "Username Taken"
+      document.getElementById("create-user-message").innerHTML = "Username Taken";
     }
   });
 }
@@ -187,7 +200,8 @@ function addTask() {
     body: JSON.stringify({task, marked})
   }).then(result => result.json()).then( data => {
     if(data) {
-      loadTasks()
+      loadTasks();
+      clearTaskForm();
     } else {
       document.getElementById("task-message").innerHTML = "Error adding task";
     }

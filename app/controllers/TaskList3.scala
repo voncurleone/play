@@ -47,8 +47,8 @@ class TaskList3 @Inject()(cc: ControllerComponents) extends AbstractController(c
     }
   }
 
-  def logout = Action {
-    Ok(Json.toJson(true)).withNewSession
+  def logout = Action { implicit request =>
+    Ok(Json.toJson(true)).withSession(request.session - "username")
   }
 
   def mark = Action { implicit request =>
